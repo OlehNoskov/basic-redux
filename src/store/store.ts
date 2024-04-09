@@ -1,15 +1,19 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import userReducer from './reducers/userSlice'
+import {postApi} from "../services/PostService";
 
 // Combine all reducers from application in one place
 const rootReducer = combineReducers({
-    userReducer
+    userReducer,
+    // Registrarion RTK Query reducer
+    [postApi.reducerPath]: postApi.reducer
 })
 
 // function for configuration store (Redux Toolkit)
 export const setupStore = () => {
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postApi.middleware)
     })
 }
 
